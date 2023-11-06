@@ -99,27 +99,30 @@
 
     <!-- 分页视图 -->
     <div>
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page.sync="formData.pageNum"
-        :page-size="formData.pageSize"
-        layout="total, prev, pager, next"
+      <PaginationPage
+        :pageNum="formData.pageNum"
+        :pageSize="formData.pageSize"
         :total="total"
-      >
-      </el-pagination>
+        @changePageNum="changePageNum"
+      ></PaginationPage>
     </div>
   </div>
 </template>
 
 <script>
+import PaginationPage from "@/components/PaginationPage.vue";
+
 export default {
+  components: {
+    PaginationPage,
+  },
   data() {
     return {
       formData: {
         username: "",
         createTime: "",
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 1,
       },
       accountUserData: [],
       total: 0,
@@ -137,12 +140,13 @@ export default {
     addUserSubmit() {
       this.$router.push("addUser");
     },
-    handleCurrentChange(val) {
-      this.onQuerySubmit();
-    },
     setPageChange(accountUserData) {
       this.total = accountUserData.pages;
       this.pageNum = accountUserData.startRow;
+    },
+    changePageNum(val) {
+      this.formData.pageNum = val;
+      this, this.onQuerySubmit();
     },
   },
 };
