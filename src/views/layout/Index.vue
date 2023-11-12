@@ -2,7 +2,7 @@
   <div class="layout">
     <!-- 左边导航栏 -->
     <div class="menu">
-      <Menu :isCollapse="isCollapse"></Menu>
+      <Menu :isCollapse="isCollapse" :activePath="activePath"></Menu>
     </div>
     <!-- 右侧内容  -->
     <div class="content" :class="{ small: isCollapse }">
@@ -24,12 +24,33 @@ export default {
   data() {
     return {
       isCollapse: false, //默认不折叠
+      activePath: "/",
     };
   },
   methods: {
     closeMenu(value) {
       this.isCollapse = value;
     },
+    //监听route并改变高亮到导航activePath属性
+    watchChangeRoutePath(data) {
+      //判断是否是子路径 通过设置meta判断 属于 哪个高亮path
+      if (data.meta.activePath) {
+        this.activePath = data.meta.activePath;
+      } else {
+        this.activePath = data.path;
+      }
+    },
+  },
+  watch: {
+    //监听页面URL是否发生变化
+    $route(to, from) {
+      this.watchChangeRoutePath(to);
+    },
+  },
+  //页面刷新后调用生命周期
+  created() {
+    console.log(this.$route);
+    this.watchChangeRoutePath(this.$route);
   },
 };
 </script>

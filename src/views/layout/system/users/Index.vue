@@ -131,11 +131,11 @@ export default {
   methods: {
     async onQuerySubmit() {
       console.log(this.formData);
-      const res = await this.$api.accountUserQueryPage(
-        JSON.stringify(this.formData)
-      );
-      this.accountUserData = res.data.data.list;
-      this.setPageChange(res.data.data);
+      const res = await this.$api.accountUserQueryPage(this.formData);
+      if (res.data.code === 200) {
+        this.accountUserData = res.data.content.list;
+        this.setPageChange(res.data.content);
+      }
     },
     addUserSubmit() {
       this.$router.push("addUser");

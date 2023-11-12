@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      :default-active="this.$route.path"
+      :default-active="activePath"
       router
       class="el-menu-vertical-demo"
       background-color="#112f50"
@@ -42,7 +42,7 @@
 </template>
 <script>
 export default {
-  props: ["isCollapse"],
+  props: ["isCollapse", "activePath"],
 };
 </script>
 <style lang="less" scoped>

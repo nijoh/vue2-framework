@@ -1,5 +1,6 @@
 const base_url = {
-    accountUserQueryPage: '/api/accountUser/queryPage',
-    accountUserAddUser: '/api/auth/regist'
+    accountUserQueryPage: '/api/account/user/queryPage',
+    accountUserAddUser: '/api/auth/regist',
+    authLogin: '/api/auth/login'
 }
 export default base_url;

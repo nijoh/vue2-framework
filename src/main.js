@@ -6,6 +6,7 @@ import '@/assets/css/base.css'
 import router from './router'
 import api from './api'
 import Moment from 'moment'
+import store from './store/Index'
 // import { Message } from 'element-ui'
 
 
@@ -20,10 +21,11 @@ Vue.filter("fmtDataTime", (dataTime) => {
   }
 })
 Vue.prototype.$api = api;
-// Vue.prototype.$router = router;
+Vue.prototype.$store = store;
 Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')

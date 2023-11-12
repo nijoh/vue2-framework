@@ -127,9 +127,7 @@ export default {
       delete fromData.aginPassword;
       delete fromData.phone;
       console.log(fromData);
-      const rsult = await this.$api.accountUserAddUser(
-        JSON.stringify(fromData)
-      );
+      const rsult = await this.$api.accountUserAddUser(fromData);
       if (rsult.data.code === 200) {
         this.$message({
           message: "新增用户保存成功",

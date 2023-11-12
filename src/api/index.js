@@ -8,6 +8,10 @@ const api = {
     //新增用户
     accountUserAddUser(params) {
         return axios.post(baseUrl.accountUserAddUser, params);
+    },
+    //登录用户
+    authLogin(params) {
+        return axios.post(baseUrl.authLogin, params);
     }
 }
 export default api;

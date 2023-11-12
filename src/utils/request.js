@@ -1,6 +1,7 @@
 // 引入axios
 import axios from 'axios';
 import Vue from 'vue';
+import router from '@/router/index'
 const instance = axios.create({
     timeout: 10000 // 超时时间
 })
@@ -8,24 +9,34 @@ const instance = axios.create({
 //请求拦截
 instance.interceptors.request.use(
     config => {
-        //   const token = sessionStorage.getItem("token"); //获取存储在本地的token，如果需要token就在这里带上
-        //   config.data = JSON.stringify(config.data);  // 这里我们也可以在过滤下 请求参数数据
-        config.headers = {    // 设置请求头   常用语post请求 
-            "Content-Type": "application/json"
-        };
-        //    if (token) {
-        //         config.headers.Authorization = "Token " + token; //存在的话 就携带 token
-        //   }
-        return config;   //  然后把配置返回
+        if (config.method === 'post') {
+            config.headers = {
+                "Content-Type": "application/json"
+            };
+            config.data = JSON.stringify(config.data);
+        }
+        const authorizationToken = Vue.prototype.$store.getters.getCurrentUser.authorizationToken;
+        //携带Token
+        if (authorizationToken) {
+            config.headers.AuthorizationToken = authorizationToken;
+        }
+        return config;
     },
     err => {
-        console.log(err)   //  如果出错的话 打印出来错误看看
+        console.log('请求错误', err)   //  如果出错的话 打印出来错误看看
     }
 );
 //响应拦截
 instance.interceptors.response.use(function (res) {
     const code = res.data.code;
-    console.log(code);
+    if (code === 401) {
+        router.replace({
+            name: "login",
+            query: {
+                redirect: router.currentRoute.fullPath //转发给登录页面当前的path
+            }
+        })
+    }
     if (code !== 200) {
         Vue.prototype.$message({
             message: res.data.msg,
@@ -34,8 +45,11 @@ instance.interceptors.response.use(function (res) {
     }
     return res
 }, function (err) {
-    this.$message.error('错了哦，这是一条错误消息');
-    console.log(err.response);
+    console.log('请求返回发生错误', err)
+    Vue.prototype.$message({
+        message: err.response.data.msg,
+        type: 'error'
+    });
 })
 
 
