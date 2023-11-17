@@ -17,7 +17,10 @@ const routes = [{
   component: Layout,
   children: [{
     path: '/',
-    component: Home
+    component: Home,
+    meta: {
+      isLogin: true
+    }
   }, {
     //系统管理
     path: '/system',

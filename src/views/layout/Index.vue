@@ -6,7 +6,12 @@
     </div>
     <!-- 右侧内容  -->
     <div class="content" :class="{ small: isCollapse }">
-      <Content @closeMenu="closeMenu" :isCollapse="isCollapse"></Content>
+      <Content
+        @closeMenu="closeMenu"
+        :isCollapse="isCollapse"
+        :username="username"
+        @logOut="logOut"
+      ></Content>
     </div>
   </div>
 </template>
@@ -25,9 +30,11 @@ export default {
     return {
       isCollapse: false, //默认不折叠
       activePath: "/",
+      username: "",
     };
   },
   methods: {
+    //隐藏菜单事件
     closeMenu(value) {
       this.isCollapse = value;
     },
@@ -40,6 +47,11 @@ export default {
         this.activePath = data.path;
       }
     },
+    //登出
+    logOut() {
+      localStorage.removeItem("currentUser");
+      this.$router.push({ name: "login" });
+    },
   },
   watch: {
     //监听页面URL是否发生变化
@@ -49,8 +61,9 @@ export default {
   },
   //页面刷新后调用生命周期
   created() {
-    console.log(this.$route);
     this.watchChangeRoutePath(this.$route);
+    //获取登录的username
+    this.username = this.$store.getters.getCurrentUser.username;
   },
 };
 </script>
