@@ -39,7 +39,11 @@
           @click="addUserSubmit"
           >添加用户</el-button
         >
-        <el-button size="small" icon="el-icon-delete" type="danger"
+        <el-button
+          size="small"
+          icon="el-icon-delete"
+          type="danger"
+          @click="deleteBatch"
           >批量删除</el-button
         >
       </el-row>
@@ -55,6 +59,7 @@
         header-row-class-name="headerRowClass"
         cell-class-name="cellClass"
         header-cell-class-name="headerCellClass"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"> </el-table-column>
 
@@ -122,13 +127,18 @@ export default {
         username: "",
         createTime: "",
         pageNum: 1,
-        pageSize: 1,
+        pageSize: 5,
       },
       accountUserData: [],
       total: 0,
+      deleteParam: {
+        emailList: [],
+      },
+      multipleSelection: [], //多选保存
     };
   },
   methods: {
+    //查询用户信息列表分页查询
     async onQuerySubmit() {
       console.log(this.formData);
       const res = await this.$api.accountUserQueryPage(this.formData);
@@ -137,16 +147,49 @@ export default {
         this.setPageChange(res.data.content);
       }
     },
+    //跳转新增用户视图
     addUserSubmit() {
       this.$router.push("addUser");
     },
+    //修改分页视图（总页数、页数）
     setPageChange(accountUserData) {
       this.total = accountUserData.pages;
       this.pageNum = accountUserData.startRow;
     },
+    //跳转页数
     changePageNum(val) {
       this.formData.pageNum = val;
-      this, this.onQuerySubmit();
+      this.onQuerySubmit();
+    },
+    //单个删除
+    async handleDelete(index, row) {
+      console.log("请求前", this.deleteParam);
+      this.deleteParam.emailList.push(row.email);
+      this.requestDeleteUser();
+      console.log("请求后", this.deleteParam);
+    },
+    //批量删除
+    deleteBatch() {
+      console.log("选择多行", this.multipleSelection);
+      if (this.multipleSelection.length > 0) {
+        this.multipleSelection.forEach((item) => {
+          this.deleteParam.emailList.push(item.email);
+        });
+        this.requestDeleteUser();
+      }
+    },
+    //多选-选择一个select触发保存选择select行
+    handleSelectionChange(row) {
+      this.multipleSelection = row;
+    },
+    //请求删除
+    async requestDeleteUser() {
+      const res = await this.$api.deleteUser(this.deleteParam);
+      if (res.data.code === 200) {
+        //重新查询
+        this.onQuerySubmit();
+        this.deleteParam.emailList = [];
+      }
     },
   },
 };

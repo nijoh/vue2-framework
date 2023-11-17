@@ -123,9 +123,10 @@ export default {
     async requestFrom() {
       //禁用提交按钮
       this.isSubmit = false;
-      const fromData = this.ruleForm;
+      //拷贝对象
+      const fromData = Object.assign({}, this.ruleForm);
+      //删除再次确认密码的属性
       delete fromData.aginPassword;
-      delete fromData.phone;
       console.log(fromData);
       const rsult = await this.$api.accountUserAddUser(fromData);
       if (rsult.data.code === 200) {

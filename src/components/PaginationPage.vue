@@ -20,7 +20,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 10,
+      default: 5,
     },
     total: {
       type: Number,

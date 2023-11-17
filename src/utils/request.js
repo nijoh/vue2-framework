@@ -30,6 +30,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(function (res) {
     const code = res.data.code;
     if (code === 401) {
+        //转发给login页面
         router.replace({
             name: "login",
             query: {

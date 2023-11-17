@@ -12,6 +12,10 @@ const api = {
     //登录用户
     authLogin(params) {
         return axios.post(baseUrl.authLogin, params);
+    },
+    //删除用户
+    deleteUser(params) {
+        return axios.post(baseUrl.deleteUser, params);
     }
 }
 export default api;

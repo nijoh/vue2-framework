@@ -58,7 +58,7 @@ export default {
         //查询是否有跳转的path
         const url = this.$route.query.redirect;
         if (url) {
-          this.$router.push({
+          return this.$router.push({
             path: decodeURIComponent(url),
           });
         }

@@ -64,7 +64,6 @@ router.beforeEach((to, from, next) => {
         redirect: to.fullPath //转发给登录页面当前的path
       }
     })
-    //return next('/login')
   }
   next()
 })
