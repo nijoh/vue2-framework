@@ -16,6 +16,10 @@ const api = {
     //删除用户
     deleteUser(params) {
         return axios.post(baseUrl.deleteUser, params);
+    },
+    //查询所有菜单
+    queryAllMenu() {
+        return axios.get(baseUrl.queryAllMenu);
     }
 }
 export default api;

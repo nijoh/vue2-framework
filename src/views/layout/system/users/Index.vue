@@ -149,7 +149,7 @@ export default {
     },
     //跳转新增用户视图
     addUserSubmit() {
-      this.$router.push("addUser");
+      this.$router.push({ name: "AddUser" });
     },
     //修改分页视图（总页数、页数）
     setPageChange(accountUserData) {

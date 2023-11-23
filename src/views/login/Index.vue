@@ -63,7 +63,7 @@ export default {
           });
         }
         //跳首页
-        this.$router.push("/");
+        this.$router.push({ name: "Home" });
       }
     },
   },
