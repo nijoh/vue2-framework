@@ -6,6 +6,7 @@ import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 export default new Vuex.Store({
+    state: {},
     modules: {
         authLogin,
         menuStore
@@ -13,8 +14,19 @@ export default new Vuex.Store({
     plugins: [
         createPersistedState({
             storage: window.localStorage, //可以设置window.sessionStorage
-            key: 'currentUser', // 存数据的key名 
-            paths: ['authLogin', 'menuStore'] // 要把那些模块加入缓存
+            key: ['currentUser'], // 存数据的key名 
+            path: ['authLogin'],
+            reducer(val) {
+                return val.authLogin.currentUser;
+            }
+        }),
+        createPersistedState({
+            storage: window.localStorage,
+            key: ['dynamicMenus'],
+            path: ['menuStore'],
+            reducer(val) {
+                return val.menuStore.dynamicMenus;
+            }
         })
     ]
 

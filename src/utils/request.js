@@ -2,6 +2,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import router from '@/router/index'
+import getLocalStoreByVal from "@/utils/common";
 const instance = axios.create({
     timeout: 10000 // 超时时间
 })
@@ -15,7 +16,8 @@ instance.interceptors.request.use(
             };
             config.data = JSON.stringify(config.data);
         }
-        const authorizationToken = Vue.prototype.$store.getters.getCurrentUser.authorizationToken;
+
+        const authorizationToken = getLocalStoreByVal("currentUser", "authorizationToken");
         //携带Token
         if (authorizationToken) {
             config.headers.AuthorizationToken = authorizationToken;
@@ -30,6 +32,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(function (res) {
     const code = res.data.code;
     if (code === 401) {
+        console.log('401没权限....进入登陆页面');
         //转发给login页面
         router.replace({
             name: "login",

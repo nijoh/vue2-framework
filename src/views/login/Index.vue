@@ -53,17 +53,18 @@ export default {
       const rsult = await this.$api.authLogin(this.loginFromData);
       console.log(rsult);
       if (rsult.data.code === 200) {
-        console.log("登录成功，跳转首页");
         this.$store.commit("loginUserInfo", rsult.data.content);
         //查询是否有跳转的path
         const url = this.$route.query.redirect;
         if (url) {
+          console.log("跳转带有url",url);
           return this.$router.push({
             path: decodeURIComponent(url),
           });
         }
+        console.log("登录成功，跳转首页");
         //跳首页
-        this.$router.push({ name: "Home" });
+        this.$router.push("/");
       }
     },
   },

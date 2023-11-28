@@ -1,13 +1,6 @@
 export default {
     state: {
-        currentUser: {
-            username: "",
-            authorizationToken: "",
-            email: "",
-            status: "",
-            phone: ""
-        }
-
+        currentUser: null
     },
     getters: {
         getCurrentUser(state) {
@@ -17,11 +10,7 @@ export default {
     mutations: {
         loginUserInfo(state, params) {
             console.log('state', state, 'params', params);
-            state.currentUser.username = params.username;
-            state.currentUser.authorizationToken = params.authorizationToken;
-            state.currentUser.email = params.email;
-            state.currentUser.status = params.status;
-            state.currentUser.phone = params.phone;
+            state.currentUser = params;
         }
     },
     actions: {

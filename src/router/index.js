@@ -1,54 +1,61 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "@/views/login/Index.vue";
+import store from '@/store/Index'
 import Layout from "@/views/layout/Index.vue";
 import Home from "@/views/home/Home.vue";
-import store from '@/store/Index'
-import api from '@/api'
-import loadMenu from "@/utils/loadMenu";
-import allRouter from "./allRouter";
-//import { Promise } from "core-js/es6";
-import "core-js/stable/promise";
-// 异步加载
-const system = () => import("@/views/layout/system/Index.vue");//系统管理
-const users = () => import("@/views/layout/system/users/Index.vue");//用户管理
-const addUser = () => import("@/views/layout/system/users/addUser.vue");//添加用户
-
+import getLocalStoreByVal, { getLocalStore } from "@/utils/common";
+import compareMenu from "@/utils/compare";
 Vue.use(VueRouter);
 
+export const baseRouters = {
+  path: '/',
+  component: Layout,
+  children: [{
+    path: '/',
+    name: 'Home',
+    component: Home,
+    meta: {
+      isLogin: true
+    }
+  }]
+};
+
+const routesSSS =
+{
+  path: '/',
+  component: Layout,
+  children: [{
+    path: '/',
+    component: Home,
+    meta: {
+      isLogin: true
+    }
+  }, {
+    //系统管理
+    path: '/system',
+    name: 'system',
+    component: () => import("@/views/layout/system/Index.vue"),
+    children: [{
+      //用户管理
+      path: 'users',
+      name: 'users',
+      component: () => import("@/views/layout/system/users/Index.vue"),
+    }, {
+      //新增用户
+      path: 'addUser',
+      name: 'addUser',
+      component: () => import("@/views/layout/system/users/addUser.vue"),
+      meta: {
+        activePath: '/system/users'
+      }
+    }
+    ]
+  }
+  ]
+}
+
 const routes = [
-  //   {
-  //   path: '/',
-  //   component: Layout,
-  //   children: [{
-  //     path: '/',
-  //     component: Home,
-  //     meta: {
-  //       isLogin: true
-  //     }
-  //   }, {
-  //     //系统管理
-  //     path: '/system',
-  //     name: 'system',
-  //     component: system,
-  //     children: [{
-  //       //用户管理
-  //       path: 'users',
-  //       name: 'users',
-  //       component: users,
-  //     }, {
-  //       //新增用户
-  //       path: 'addUser',
-  //       name: 'addUser',
-  //       component: addUser,
-  //       meta: {
-  //         activePath: '/system/users'
-  //       }
-  //     }
-  //     ]
-  //   }
-  //   ]
-  // },
   {
     path: '/login',
     name: 'login',
@@ -62,44 +69,53 @@ const router = new VueRouter({
 })
 //守卫
 const whiteList = ['/login']
+//加载本地动态路由标志（页面刷新使用）
+let reloadLocalStroeMenusTag = true;
 router.beforeEach((to, from, next) => {
+  console.log("记录beforeEach次数");
   //白名单
   if (whiteList.includes(to.path)) {
     return next();
   }
-  //获取token
-  const authorizationToken = store.getters.getCurrentUser.authorizationToken;
+  //获取本次存储菜单
+  const localStoreDyMeus = getLocalStore("dynamicMenus");
+  //是否已登录
+  const authorizationToken = getLocalStoreByVal("currentUser", "authorizationToken");
   if (!authorizationToken) {
-    return router.replace({
-      name: "login",
-      query: {
+    return next({
+      path: "/login", query: {
         redirect: to.fullPath //转发给登录页面当前的path
       }
-    })
+    }
+    )
   }
 
+  //异步加载菜单
+  if (!localStoreDyMeus) {
+    store.dispatch('loadDynamicMenus', baseRouters).then(baseRouters => {
+      console.log("routIndex返回合并菜单", baseRouters);
 
-
-  //获取后端菜单
-  const menuInfo = store.getters.getMenuInfo;
-  debugger;
-  if (menuInfo.length === 0) {
-    new Promise((resolve) => {
-      queryAllMenu(resolve);
-    }).then(() => {
-      menuInfo = store.getters.getMenuInfo;
+      let tmp = [baseRouters];
+      router.addRoutes(tmp);
+      console.log("tototo----------", to);
+      reloadLocalStroeMenusTag = false;
+      router.push({ ...to, replace: true })
     });
-  }
-  loadMenu(allRouter, menuInfo)
+  } else {
+    if (reloadLocalStroeMenusTag) {
 
-  next();
+      compareMenu(baseRouters, localStoreDyMeus);
+      let tmp = [baseRouters];
+      router.addRoutes(tmp);
+      reloadLocalStroeMenusTag = false;
+      return router.push({ ...to, replace: true })
+    }
+    next();
+
+  }
+  console.log("beforeEach执行完成");
 })
 
-async function queryAllMenu(resolve) {
-  const res = await api.queryAllMenu();
-  store.commit('saveMenu', res.data.content)
-  resolve();
-}
 
 
 export default router;

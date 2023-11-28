@@ -1,18 +1,36 @@
+import api from '@/api';
+import "core-js/stable/promise";
+import compareMenu from "@/utils/compare";
+
 export default {
     state: {
-        menuInfo: []
+        dynamicMenus: undefined
 
     },
     getters: {
-        getMenuInfo(state) {
-            return state.menuInfo;
+        getMenus(state) {
+            return state.dynamicMenus;
         }
     },
     mutations: {
-        saveMenu(state, params) {
-            state.menuInfo = params;
-        }
+        setMenus(state, dyMenu) {
+            state.dynamicMenus = dyMenu;
+        },
+
     },
     actions: {
+        //加载后端动态路由
+        loadDynamicMenus(context, baseRouters) {
+            console.log("actions#loadDynamicMenus,参数", baseRouters);
+            return new Promise((resolve) => {
+                api.queryAllMenu().then(res => {
+                    //比较并合并路由
+                    compareMenu(baseRouters, res.data.content);
+                    context.commit('setMenus', res.data.content);
+
+                    resolve(baseRouters);
+                });
+            });
+        }
     }
 }

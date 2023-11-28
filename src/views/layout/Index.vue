@@ -19,6 +19,7 @@
 // 引入组件
 import Menu from "./menu/Index.vue";
 import Content from "./content/Index.vue";
+import getLocalStoreByVal from "@/utils/common";
 
 export default {
   //注册主键
@@ -50,7 +51,8 @@ export default {
     //登出
     logOut() {
       localStorage.removeItem("currentUser");
-      this.$router.push({ name: "login" });
+      localStorage.removeItem("dynamicMenus");
+      this.$router.push({ name: "login" ,replace:true});
     },
   },
   watch: {
@@ -63,7 +65,7 @@ export default {
   created() {
     this.watchChangeRoutePath(this.$route);
     //获取登录的username
-    this.username = this.$store.getters.getCurrentUser.username;
+     this.username =getLocalStoreByVal("currentUser","username");
   },
 };
 </script>
