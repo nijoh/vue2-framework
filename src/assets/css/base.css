@@ -1,17 +1,27 @@
-h1,h2,h3,h4,p,ul,li{
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+li {
     margin: 0;
     padding: 0;
 }
-ul{
+
+ul {
     list-style: none;
 }
-a{
+
+a {
     text-decoration: none;
 }
-image{
+
+image {
     vertical-align: middle;
 }
-body{
-    font-size: 14px;
-    font-family:'微软雅黑', 'Arial Narrow', Arial, sans-serif;
+
+body {
+    font-size: 12px;
+    font-family: '微软雅黑', 'Arial Narrow', Arial, sans-serif;
 }

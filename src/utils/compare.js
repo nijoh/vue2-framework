@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import allRouters from "@/router/allRouters";
-
+import baseRouters from '@/router/baseRouters.js';
 function recursionMenu(allMenu, dynamicMenu) {
     let menuArr = [];
     let arr = cloneDeep(allMenu);
@@ -18,10 +18,12 @@ function recursionMenu(allMenu, dynamicMenu) {
     });
     return menuArr;
 }
-export default function compareMenu(baseRouters, dynamicMenu) {
-    console.log('全部路由', allRouters, '后端路由', dynamicMenu);
+export default function compareMenu(dynamicMenu) {
     const menuArr = recursionMenu(allRouters, dynamicMenu);
     //合并路由
-    baseRouters.children.push(...menuArr);
-    return baseRouters;
+    console.log('全部路由', allRouters, '后端路由', dynamicMenu, "基础路由", baseRouters);
+    let baseRouter = cloneDeep(baseRouters);
+    baseRouter.children.push(...menuArr);
+    console.log("合并后的菜单-----", baseRouters);
+    return baseRouter;
 }

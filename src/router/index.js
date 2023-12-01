@@ -2,59 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "@/views/login/Index.vue";
 import store from '@/store/Index'
-import Layout from "@/views/layout/Index.vue";
-import Home from "@/views/home/Home.vue";
 import getLocalStoreByVal, { getLocalStore } from "@/utils/common";
 import compareMenu from "@/utils/compare";
 Vue.use(VueRouter);
 
-export const baseRouters = {
-  path: '/',
-  component: Layout,
-  children: [{
-    path: '/',
-    name: 'Home',
-    component: Home,
-    meta: {
-      isLogin: true
-    }
-  }]
-};
-
-const routesSSS =
-{
-  path: '/',
-  component: Layout,
-  children: [{
-    path: '/',
-    component: Home,
-    meta: {
-      isLogin: true
-    }
-  }, {
-    //系统管理
-    path: '/system',
-    name: 'system',
-    component: () => import("@/views/layout/system/Index.vue"),
-    children: [{
-      //用户管理
-      path: 'users',
-      name: 'users',
-      component: () => import("@/views/layout/system/users/Index.vue"),
-    }, {
-      //新增用户
-      path: 'addUser',
-      name: 'addUser',
-      component: () => import("@/views/layout/system/users/addUser.vue"),
-      meta: {
-        activePath: '/system/users'
-      }
-    }
-    ]
-  }
-  ]
-}
-
+/**登录路由 */
 const routes = [
   {
     path: '/login',
@@ -92,9 +44,7 @@ router.beforeEach((to, from, next) => {
 
   //异步加载菜单
   if (!localStoreDyMeus) {
-    store.dispatch('loadDynamicMenus', baseRouters).then(baseRouters => {
-      console.log("routIndex返回合并菜单", baseRouters);
-
+    store.dispatch('menuStore/loadDynamicMenus').then(baseRouters => {
       let tmp = [baseRouters];
       router.addRoutes(tmp);
       console.log("tototo----------", to);
@@ -103,8 +53,7 @@ router.beforeEach((to, from, next) => {
     });
   } else {
     if (reloadLocalStroeMenusTag) {
-
-      compareMenu(baseRouters, localStoreDyMeus);
+      const baseRouters = compareMenu(localStoreDyMeus);
       let tmp = [baseRouters];
       router.addRoutes(tmp);
       reloadLocalStroeMenusTag = false;

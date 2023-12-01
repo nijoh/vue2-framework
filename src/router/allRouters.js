@@ -11,13 +11,17 @@ const allRouters = [{
         path: 'users',
         name: 'Users',
         component: users,
+        meta: {
+            title: '用户管理'
+        }
     }, {
         //新增用户
         path: 'addUser',
         name: 'AddUser',
         component: addUser,
         meta: {
-            activePath: '/system/users'
+            activePath: '/system/users',
+            title: '新增用户'
         }
     }
     ]
