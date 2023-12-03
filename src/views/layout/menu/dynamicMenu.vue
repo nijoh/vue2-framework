@@ -1,45 +1,55 @@
 <template>
-  <el-menu
-      class="el-menu-vertical-demo"
-      background-color="#112f50"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-     >
-    <el-menu-item index="/">
-      <i class="el-icon-menu"></i>
-      <span slot="title">首页</span>
-    </el-menu-item>
-    <el-submenu index="/system">
-      <template slot="title">
-        <i class="el-icon-location"></i>
-        <span>系统管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/system/users">
-          <i class="el-icon-user-solid"></i>
-          <span slot="title">用户管理</span>
-        </el-menu-item>
-        <el-menu-item>
-          <i class="el-icon-user"></i>
-          <span slot="title">角色管理</span>
-        </el-menu-item>
-        <el-menu-item>
+  <div>
+      <template v-for="(item, index) in dyMenuList">
+        <el-submenu v-if="item.children && item.children.length>0 &&isChildrenNavigation(item)" :key="index" :index="item.menuUri">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>{{item.menuName}}</span>
+        </template>
+        
+        
+        <el-menu-item-group>
+          <dyMenu :dyMenuList="item.children"></dyMenu>
+        </el-menu-item-group>
+      </el-submenu> 
+       
+
+        <el-menu-item v-else-if="item.menuType==='navigation'"  :key="index" :index="item.menuUri">
           <i class="el-icon-menu"></i>
-          <span slot="title">菜单管理</span>
+          <span slot="title">{{item.menuName}}</span>
         </el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
-  </el-menu>
+      </template>
+      
+
+  </div>
 </template>
 
 <script>
 
 export default {
+  name: "dyMenu",
   props:{
     dyMenuList:Array
   },
   created() {
     console.log("------------------",this.dyMenuList);
+  },
+  methods:{
+    /**
+     * 遍历Children 是否包含navigation
+     */
+    isChildrenNavigation(params){
+      let result=false;
+      Object.values(params.children).forEach(value=>{
+	      if(value.menuType==='navigation'){
+          result=true;
+        }
+      })
+      return result;
+    },
+    // pushMenuPath(params){
+    //  this.$router.push({name:params})
+    // }
   }
 }
 </script>

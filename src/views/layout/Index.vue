@@ -11,6 +11,7 @@
         :isCollapse="isCollapse"
         :username="username"
         @logOut="logOut"
+        
       ></Content>
     </div>
   </div>
@@ -54,6 +55,7 @@ export default {
       localStorage.removeItem("dynamicMenus");
       this.$router.push({ name: "login" ,replace:true});
     },
+    
   },
   watch: {
     //监听页面URL是否发生变化
