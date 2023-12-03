@@ -10,21 +10,26 @@ const allRouters = [{
         //用户管理
         path: 'users',
         name: 'Users',
-        component: users,
         meta: {
             title: '用户管理'
-        }
-    }, {
-        //新增用户
-        path: 'addUser',
-        name: 'AddUser',
-        component: addUser,
-        meta: {
-            activePath: '/system/users',
-            title: '新增用户'
-        }
-    }
-    ]
+        },
+        component: () => import("@/views/layout/system/users/usersLayout.vue"),
+        children: [{
+            path: '', // 默认子路由
+            name: 'Users',
+            component: users
+        },
+        {
+            //新增用户
+            path: 'addUser',
+            name: 'AddUser',
+            component: addUser,
+            meta: {
+                activePath: '/system/users'
+            }
+        }]
+
+    }]
 
 }]
 export default allRouters;

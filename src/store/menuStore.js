@@ -1,12 +1,12 @@
 import api from '@/api';
 import "core-js/stable/promise";
 import compareMenu from "@/utils/compare";
+import { getLocalStore } from "@/utils/common"
 
 export default {
     namespaced: true,
     state: {
-        dynamicMenus: undefined
-
+        dynamicMenus: getLocalStore("dynamicMenus")
     },
     getters: {
         getMenus(state) {
@@ -24,11 +24,10 @@ export default {
         //加载后端动态路由
         loadDynamicMenus(context) {
             return new Promise((resolve) => {
-                api.queryAllMenu().then(res => {
+                api.queryTree().then(res => {
                     //比较并合并路由
                     const baseRouters = compareMenu(res.data.content);
                     context.commit('setMenus', res.data.content);
-
                     resolve(baseRouters);
                 });
             });

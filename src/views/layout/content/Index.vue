@@ -18,10 +18,10 @@
         <span class="iconfont el-icon-switch-button" @click="logOut"></span>
       </div>
     </div>
-    <!-- 内容 -->
-    <div></div>
+    
     <!-- 路由 -->
-    <router-view></router-view>
+   <router-view></router-view>
+    
   </div>
 </template>
 <script>

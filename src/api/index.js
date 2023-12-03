@@ -20,6 +20,10 @@ const api = {
     //查询所有菜单
     queryAllMenu() {
         return axios.get(baseUrl.queryAllMenu);
+    },
+    //查询所有菜单Tree结构
+    queryTree() {
+        return axios.get(baseUrl.queryTree);
     }
 }
 export default api;

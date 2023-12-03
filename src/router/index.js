@@ -24,7 +24,7 @@ const whiteList = ['/login']
 //加载本地动态路由标志（页面刷新使用）
 let reloadLocalStroeMenusTag = true;
 router.beforeEach((to, from, next) => {
-  console.log("记录beforeEach次数");
+
   //白名单
   if (whiteList.includes(to.path)) {
     return next();
@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
     next();
 
   }
-  console.log("beforeEach执行完成");
+
 })
 
 

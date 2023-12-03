@@ -1,5 +1,6 @@
 <template>
-  <div class="header">
+  <div>
+    <div class="header">
     <!-- 表头搜索框 -->
     <div class="from">
       <el-form :inline="true" :model="formData" class="demo-form-inline">
@@ -112,6 +113,8 @@
       ></PaginationPage>
     </div>
   </div>
+  </div>
+  
 </template>
 
 <script>
@@ -149,7 +152,7 @@ export default {
     },
     //跳转新增用户视图
     addUserSubmit() {
-      this.$router.push({ name: "AddUser" });
+      this.$router.push({ name: "AddUser" ,replace:true});
     },
     //修改分页视图（总页数、页数）
     setPageChange(accountUserData) {

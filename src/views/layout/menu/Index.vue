@@ -37,12 +37,27 @@
           <el-menu-item index="/login">登录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+
+      <!-- <dynamicMenu :dyMenuList="dyMenuList"></dynamicMenu> -->
     </el-menu>
   </div>
 </template>
 <script>
+import dynamicMenu from './dynamicMenu.vue'
+
 export default {
   props: ["isCollapse", "activePath"],
+  // components: {
+  //   dynamicMenu
+  // },
+  // data(){
+  //   return {
+  //     dyMenuList:[]
+  //   }
+  // },
+  // created(){
+  //   this.dyMenuList=this.$store.getters['menuStore/getMenus'];
+  // }
 };
 </script>
 <style lang="less" scoped>
