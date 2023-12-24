@@ -9,7 +9,7 @@
       <Content
         @closeMenu="closeMenu"
         :isCollapse="isCollapse"
-        :username="username"
+        :staffName="staffName"
         @logOut="logOut"
         
       ></Content>
@@ -32,7 +32,7 @@ export default {
     return {
       isCollapse: false, //默认不折叠
       activePath: "/",
-      username: "",
+      staffName: "",
     };
   },
   methods: {
@@ -67,7 +67,7 @@ export default {
   created() {
     this.watchChangeRoutePath(this.$route);
     //获取登录的username
-     this.username =getLocalStoreByVal("currentUser","username");
+     this.staffName =getLocalStoreByVal("currentUser","staffName");
   },
 };
 </script>

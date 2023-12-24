@@ -24,6 +24,30 @@ const api = {
     //查询所有菜单Tree结构
     queryTree() {
         return axios.get(baseUrl.queryTree);
+    },
+    //用户详细信息
+    queryDetail(val) {
+        return axios.get(baseUrl.queryDetail, {
+            params: {
+                ...val
+            }
+        });
+    },
+    //修改员工信息
+    modifyStaff(params) {
+        return axios.post(baseUrl.modifyStaff, params);
+    },
+    //查询所有角色
+    queryRoles() {
+        return axios.post(baseUrl.queryRoles);
+    },
+    //授权角色
+    authorizeRole(params) {
+        return axios.post(baseUrl.authorizeRole, params);
+    },
+    //冻结用户
+    freezeStaff(params) {
+        return axios.post(baseUrl.freezeStaff, params);
     }
 }
 export default api;

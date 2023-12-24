@@ -3,6 +3,7 @@ import axios from 'axios';
 import Vue from 'vue';
 import router from '@/router/index'
 import getLocalStoreByVal from "@/utils/common";
+import { uniqueId } from 'lodash';
 const instance = axios.create({
     timeout: 10000 // 超时时间
 })
@@ -10,12 +11,18 @@ const instance = axios.create({
 //请求拦截
 instance.interceptors.request.use(
     config => {
+        config.headers = {
+            "Domain": "cloud-framework"
+        };
         if (config.method === 'post') {
-            config.headers = {
-                "Content-Type": "application/json"
-            };
+            config.headers["Content-Type"] = "application/json";
+            config.data = {
+                ...config.data,
+                bizNo: uniqueId()
+            }
             config.data = JSON.stringify(config.data);
         }
+
 
         const authorizationToken = getLocalStoreByVal("currentUser", "authorizationToken");
         //携带Token

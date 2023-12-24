@@ -1,7 +1,7 @@
 <template>
   <div>
       <template v-for="(item, index) in dyMenuList">
-        <el-submenu v-if="item.children && item.children.length>0 &&isChildrenNavigation(item)" :key="index" :index="item.menuUri">
+        <el-submenu v-if="item.children && item.children.length>0 &&isChildrenNavigation(item)" :key="index" :index="item.menuUrl">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span>{{item.menuName}}</span>
@@ -14,7 +14,7 @@
       </el-submenu> 
        
 
-        <el-menu-item v-else-if="item.menuType==='navigation'"  :key="index" :index="item.menuUri">
+        <el-menu-item v-else-if="item.menuType==='navigation'"  :key="index" :index="item.menuUrl">
           <i class="el-icon-menu"></i>
           <span slot="title">{{item.menuName}}</span>
         </el-menu-item>
@@ -46,10 +46,7 @@ export default {
         }
       })
       return result;
-    },
-    // pushMenuPath(params){
-    //  this.$router.push({name:params})
-    // }
+    }
   }
 }
 </script>

@@ -8,7 +8,12 @@ function recursionMenu(allMenu, dynamicMenu) {
 
     dynamicMenu.forEach(dy => {
         arr.forEach(el => {
-            if (el.name === dy.menuCode) {
+            //需要判断直接纳入 有些中间组件 后端没有的 用户管理
+            if (el.meta && el.meta.skip) {
+                menuArr.push(el);
+            }
+            else if (el.name === dy.menuCode) {
+
                 if (el.children) {
                     el.children = recursionMenu(el.children, dy.children);
                 }

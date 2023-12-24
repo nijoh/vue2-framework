@@ -13,8 +13,7 @@
       </div>
 
       <div class="rightHeard">
-        <span>欢迎 {{ username }}</span
-        >｜
+        <span>欢迎  {{ staffName }}</span>  ｜ 
         <span class="iconfont el-icon-switch-button" @click="logOut"></span>
       </div>
     </div>
@@ -40,7 +39,7 @@ export default {
       this.$emit("logOut");
     },
   },
-  props: ["isCollapse", "username"],
+  props: ["isCollapse", "staffName"],
 };
 </script>
 <style lang="less" scoped>
