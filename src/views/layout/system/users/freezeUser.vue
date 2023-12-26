@@ -30,7 +30,7 @@ export default {
                 accountId:this.accountId
             }
             const res = await this.$api.freezeStaff(params);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
                 this.$message({
                     message: "操作成功",
                     type: "success",

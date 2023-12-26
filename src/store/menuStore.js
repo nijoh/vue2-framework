@@ -26,8 +26,8 @@ export default {
             return new Promise((resolve) => {
                 api.queryTree().then(res => {
                     //比较并合并路由
-                    const baseRouters = compareMenu(res.data.content);
-                    context.commit('setMenus', res.data.content);
+                    const baseRouters = compareMenu(res.content);
+                    context.commit('setMenus', res.content);
                     resolve(baseRouters);
                 });
             });

@@ -8,8 +8,15 @@
                     <el-input v-model="formData.staffName" placeholder="员工姓名" size="small"></el-input>
                 </el-form-item>
                 <el-form-item label="创建时间">
-                    <el-date-picker v-model="formData.createTime" type="date" placeholder="选择日期" size="small" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
+                    <el-date-picker v-model="createTime" @change="changeData" type="daterange" range-separator="至" start-placeholder="开始日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" end-placeholder="结束日期">
                     </el-date-picker>
+                </el-form-item>
+                <el-form-item label="状态">
+                    <el-select v-model="formData.status" placeholder="请选择状态">
+                        <el-option label="正常" value="NORMAL"></el-option>
+                        <el-option label="冻结" value="FREEZE"></el-option>
+                        <el-option label="删除" value="DELETED"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button size="small" type="primary" @click="onQuerySubmit">查询</el-button>
@@ -88,11 +95,14 @@ export default {
         return {
             formData: {
                 staffName: "",
-                createTime: "",
+                startTime: "",
+                endTime: "",
                 status: "",
                 pageNum: 1,
                 pageSize: 5,
+                status: ''
             },
+            createTime: [],
             accountUserData: [],
             total: 0,
             deleteParam: {
@@ -104,7 +114,7 @@ export default {
             showAuthorizeRole: false,
             userRoleInfo: {},
             showFreezeUser: false,
-            accountId:""
+            accountId: ""
         };
     },
     methods: {
@@ -112,9 +122,9 @@ export default {
         async onQuerySubmit() {
             console.log(this.formData);
             const res = await this.$api.accountUserQueryPage(this.formData);
-            if (res.data.code === 200) {
-                this.accountUserData = res.data.content.list;
-                this.setPageChange(res.data.content);
+            if (res.code === 200) {
+                this.accountUserData = res.content.list;
+                this.setPageChange(res.content);
             }
         },
         //跳转新增用户视图
@@ -126,7 +136,7 @@ export default {
         },
         //修改分页视图（总页数、页数）
         setPageChange(accountUserData) {
-            this.total = accountUserData.pages;
+            this.total = accountUserData.total;
             this.pageNum = accountUserData.startRow;
         },
         //跳转页数
@@ -158,7 +168,7 @@ export default {
         //请求删除
         async requestDeleteUser() {
             const res = await this.$api.deleteUser(this.deleteParam);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
                 //重新查询
                 this.onQuerySubmit();
                 this.deleteParam.emailList = [];
@@ -170,8 +180,8 @@ export default {
                 staffId: row.staffId
             };
             const res = await this.$api.queryDetail(params);
-            if (res.data.code === 200) {
-                this.queryDetailData = res.data.content;
+            if (res.code === 200) {
+                this.queryDetailData = res.content;
                 console.log(this.queryDetailData);
                 this.showDeatailUser = true;
             }
@@ -215,11 +225,11 @@ export default {
         },
         async handleAuthorizeRole(row) {
             const res = await this.$api.queryRoles();
-            if (res.data.code === 200) {
+            if (res.code === 200) {
                 this.userRoleInfo = {
                     nickName: row.nickName,
                     roleName: row.roleName,
-                    roleInfos: res.data.content,
+                    roleInfos: res.content,
                     staffId: row.staffId
                 }
                 this.showAuthorizeRole = true;
@@ -236,6 +246,17 @@ export default {
         handleFreezeUser(row) {
             this.accountId = row.accountId;
             this.showFreezeUser = true;
+        },
+        changeData(value) {
+            //清空日期
+            if (value === null) {
+                this.formData.startTime = '';
+                this.formData.endTime = '';
+                return;
+            }
+            this.formData.startTime = value[0] + " 00:00:00";
+            this.formData.endTime = value[1] + " 23:59:59";
+
         }
     },
 };

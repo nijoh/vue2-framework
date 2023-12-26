@@ -53,8 +53,8 @@ export default {
       );
       const rsult = await this.$api.authLogin(this.loginFromData);
       console.log(rsult);
-      if (rsult.data.code === 200) {
-        store.dispatch('authLogin/setLoginStore', rsult.data.content)
+      if (rsult.code === 200) {
+        store.dispatch('authLogin/setLoginStore', rsult.content)
         //查询是否有跳转的path
         const url = this.$route.query.redirect;
         if (url) {

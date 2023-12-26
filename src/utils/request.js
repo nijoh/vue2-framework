@@ -2,8 +2,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import router from '@/router/index'
-import getLocalStoreByVal from "@/utils/common";
-import { uniqueId } from 'lodash';
+import getLocalStoreByVal, { bizNo } from "@/utils/common";
 const instance = axios.create({
     timeout: 10000 // 超时时间
 })
@@ -18,7 +17,7 @@ instance.interceptors.request.use(
             config.headers["Content-Type"] = "application/json";
             config.data = {
                 ...config.data,
-                bizNo: uniqueId()
+                bizNo: bizNo()
             }
             config.data = JSON.stringify(config.data);
         }
@@ -54,7 +53,7 @@ instance.interceptors.response.use(function (res) {
             type: 'error'
         });
     }
-    return res
+    return res.data;
 }, function (err) {
     console.log('请求返回发生错误', err)
     Vue.prototype.$message({

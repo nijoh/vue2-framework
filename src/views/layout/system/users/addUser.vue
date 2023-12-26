@@ -130,7 +130,7 @@ export default {
       delete fromData.aginPassword;
       console.log(fromData);
       const rsult = await this.$api.accountUserAddUser(fromData);
-      if (rsult.data.code === 200) {
+      if (rsult.code === 200) {
         this.$message({
           message: "新增用户保存成功",
           type: "success",

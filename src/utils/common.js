@@ -20,3 +20,15 @@ export default function getLocalStoreByVal(key, val) {
 export function getLocalStore(key) {
     return localStorage.getItem(key) === 'undefined' ? null : JSON.parse(localStorage.getItem(key));
 }
+
+/**
+ * 生成bizNo
+ * @returns GUID
+ */
+export function bizNo() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8)
+        return v.toString(16)
+    })
+}

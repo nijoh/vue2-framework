@@ -43,7 +43,7 @@ export default {
         async submit() {
             console.log("提交数据获取数据", this.queryDetailData);
             const res = await this.$api.modifyStaff(this.queryDetailData);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
                 this.$message({
                     message: "更新用户数据成功",
                     type: "success",

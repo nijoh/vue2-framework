@@ -2,10 +2,10 @@
 <el-dialog title="授权角色" :visible.sync="showAuthorizeRole" :show-close="false">
     <el-form :model="userRoleInfo">
         <el-form-item label="用户" :label-width="formLabelWidth">
-            <el-input v-model="userRoleInfo.nickName" autocomplete="off"></el-input>
+            <el-input :disabled="true" v-model="userRoleInfo.nickName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="当前角色" :label-width="formLabelWidth">
-            <el-input v-model="userRoleInfo.roleName" autocomplete="off"></el-input>
+            <el-input :disabled="true" v-model="userRoleInfo.roleName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="授权角色" :label-width="formLabelWidth">
             <el-select v-model="userRoleInfo.selectRoleId" placeholder="请选择角色">
@@ -46,7 +46,7 @@ export default {
                 staffId: this.userRoleInfo.staffId
             }
             const res = await this.$api.authorizeRole(params);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
                 this.$message({
                     message: "角色授权成功",
                     type: "success",
