@@ -9,6 +9,9 @@ const base_url = {
     modifyStaff: '/api/account/user/modifyStaff',
     queryRoles: '/api/roles/query',
     authorizeRole: '/api/account/user/authorizeRole',
-    freezeStaff: '/api/account/user/freezeStaff'
+    freezeStaff: '/api/account/user/freezeStaff',
+    modifyMenu: '/api/meuns/modify',
+    addMenu: '/api/meuns/add',
+    deleteMenu: '/api/meuns/delete'
 }
 export default base_url;

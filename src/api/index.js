@@ -48,6 +48,18 @@ const api = {
     //冻结用户
     freezeStaff(params) {
         return axios.post(baseUrl.freezeStaff, params);
+    },
+    //修改菜单
+    modifyMenu(params) {
+        return axios.post(baseUrl.modifyMenu, params);
+    },
+    //新增菜单
+    addMenu(params) {
+        return axios.post(baseUrl.addMenu, params);
+    },
+    //删除菜单
+    deleteMenu(params) {
+        return axios.post(baseUrl.deleteMenu, params);
     }
 }
 export default api;

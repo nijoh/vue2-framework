@@ -48,7 +48,7 @@
                 <el-table-column prop="lastLoginTime" label="登录日期" width="180">
                     <template slot-scope="scope">{{scope.row.lastLoginTime | fmtDataTime}}</template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作">
+                <el-table-column fixed="right">
                     <template slot-scope="scope">
                         <el-dropdown @command="handleCommand">
                             <span class="el-dropdown-link">

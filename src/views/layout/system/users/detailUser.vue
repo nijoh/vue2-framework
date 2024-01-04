@@ -1,5 +1,5 @@
 <template>
-<el-dialog title="编辑员工信息" :visible.sync="showDeatailUser" :show-close="false">
+<el-dialog title="编辑员工信息" :visible.sync="showDeatailUser"  :before-close="closeMenuDialog">
     <el-form :model="queryDetailData">
         <el-form-item label="昵称" :label-width="formLabelWidth">
             <el-input v-model="queryDetailData.nickName" autocomplete="off"></el-input>
@@ -50,6 +50,10 @@ export default {
                 });
                 this.closeDeatailUser(true);
             }
+        },
+        //关闭前回调
+        closeMenuDialog() {
+            this.closeDeatailUser(false);
         },
     }
 };
