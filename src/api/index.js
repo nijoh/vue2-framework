@@ -60,6 +60,30 @@ const api = {
     //删除菜单
     deleteMenu(params) {
         return axios.post(baseUrl.deleteMenu, params);
+    },
+    //查询角色
+    queryRole(params) {
+        return axios.post(baseUrl.queryRole, params);
+    },
+    //查询角色授权菜单
+    queryAuthorize(params) {
+        return axios.post(baseUrl.queryAuthorize, params);
+    },
+    //角色授权菜单
+    authorizeMenus(params) {
+        return axios.post(baseUrl.authorizeMenus, params);
+    },
+    //修改角色
+    modifyRole(params) {
+        return axios.post(baseUrl.modifyRole, params);
+    },
+    //新增角色
+    addRole(params) {
+        return axios.post(baseUrl.addRole, params);
+    },
+    //删除角色
+    deleteRole(params) {
+        return axios.post(baseUrl.deleteRole, params);
     }
 }
 export default api;

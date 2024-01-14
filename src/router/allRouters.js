@@ -3,7 +3,8 @@ const users = () => import("@/views/layout/system/users/Index.vue");//用户管�
 const addUser = () => import("@/views/layout/system/users/addUser.vue");//添加用户
 const usersLayout = () => import("@/views/layout/system/users/usersLayout.vue");
 
-const menu = () => import("@/views/layout/system/menusManger/");
+const menu = () => import("@/views/layout/system/menusManger/");//菜单管理
+const role = () => import("@/views/layout/system/RoleManger/Index.vue");//角色管理
 const allRouters = [{
     //系统管理
     path: '/system',
@@ -42,7 +43,17 @@ const allRouters = [{
             title: '菜单管理'
         },
         component: menu
-    }]
+    },
+    {
+        //角色管理
+        path: 'roles',
+        name: 'Roles',
+        meta: {
+            title: '角色管理'
+        },
+        component: role
+    }
+    ]
 
 }]
 export default allRouters;

@@ -11,12 +11,14 @@
             </el-table-column>
             <el-table-column prop="menuUrl" label="菜单路径" width="180">
             </el-table-column>
-            <el-table-column prop="menuCode" label="菜单码">
+            <el-table-column prop="menuCode" label="菜单标识">
             </el-table-column>
             <el-table-column prop="menuType" label="菜单类型">
                 <template slot-scope="scope">
                     <el-tag :type="scope.row.menuType === 'DIRECTORY' ? 'success' : scope.row.menuType === 'MENU' ? 'primary':'danger'" disable-transitions>{{scope.row.menuType === "DIRECTORY"? "目录": scope.row.menuType === "MENU"?"菜单":"按钮"}}</el-tag>
                 </template>
+            </el-table-column>
+            <el-table-column prop="authorizeCode" label="授权码">
             </el-table-column>
             <el-table-column fixed="right">
                 <template slot-scope="scope">

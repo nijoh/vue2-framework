@@ -18,12 +18,12 @@
             <el-input v-model="rowData.menuUrl" style="width: 50%;"></el-input>
         </el-form-item>
 
-        <el-form-item label="菜单码" prop="menuCode">
+        <el-form-item label="菜单标识" prop="menuCode">
             <el-input v-model="rowData.menuCode" style="width: 50%;"></el-input>
         </el-form-item>
 
         <el-form-item label="菜单描述" v-if="rowData.submitType === 'addMenu'">
-            <el-input type="textarea" :rows="2"  style="width: 50%;"  autosize placeholder="请输入内容" v-model="rowData.menuDesc"></el-input>
+            <el-input type="textarea" :rows="2" style="width: 50%;" autosize placeholder="请输入内容" v-model="rowData.menuDesc"></el-input>
         </el-form-item>
 
         <el-form-item label="菜单类型" prop="menuType">
@@ -33,6 +33,11 @@
                 <el-radio label="BUTTON">按钮</el-radio>
             </el-radio-group>
         </el-form-item>
+
+        <el-form-item label="授权码" prop="authorizeCode">
+            <el-input v-model="rowData.authorizeCode" style="width: 50%;"></el-input>
+        </el-form-item>
+
         <el-form-item label="状态" prop="status">
             <el-radio-group v-model="rowData.status">
                 <el-radio label="NORMAL">正常</el-radio>
@@ -64,7 +69,7 @@ export default {
                     parentMenuName: "",
                     title: '新增菜单',
                     submitType: 'addMenu',
-                    menuDesc:''
+                    menuDesc: ''
                 };
             }
         }
@@ -121,6 +126,11 @@ export default {
                     },
 
                 ],
+                authorizeCode: [{
+                    required: true,
+                    message: '授权码不能为空',
+                    trigger: 'blur'
+                }]
             }
         }
     },
@@ -173,12 +183,16 @@ export default {
                     delete submitFormData.parentMenuName;
                     console.log("提交的数据", submitFormData);
                     if (this.rowData.submitType === 'modifyMenu') {
-                        this.modifyMenu(submitFormData)
+                        this.modifyMenu(submitFormData).then(() => {
+                            this.closeModiyMenu(true);
+                        })
                     }
                     if (this.rowData.submitType === 'addMenu') {
-                        this.addMenu(submitFormData);
+                        this.addMenu(submitFormData).then(() => {
+                            this.closeModiyMenu(true);
+                        });
                     }
-                    this.closeModiyMenu(true);
+                   
                 }
 
             });
